@@ -1,0 +1,13 @@
+{
+  "name": "menu-planner-monorepo",
+  "private": true,
+  "scripts": {
+    "dev:web": "pnpm --filter @menu-planner/web dev",
+    "build:web": "pnpm --filter @menu-planner/web build",
+    "dev:core": "pnpm --filter @menu-planner/core build --watch",
+    "build:core": "pnpm --filter @menu-planner/core build"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

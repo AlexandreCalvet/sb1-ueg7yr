@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    function isUserInOrganization(organizationId) {
+      return isAuthenticated() && getUserData().organizationId == organizationId;
+    }
+    
+    function hasRole(allowedRoles) {
+      return isAuthenticated() && (allowedRoles.hasAny([getUserData().role]));
+    }
+    
+    match /recipes/{recipeId} {
+      allow read: if resource.data.isPublic == true || isUserInOrganization(resource.data.organizationId);
+      allow create: if isUserInOrganization(request.resource.data.organizationId) && 
+                   hasRole(['owner', 'contributor']);
+      allow update, delete: if isUserInOrganization(resource.data.organizationId) && 
+                           hasRole(['owner', 'contributor']);
+    }
+    
+    match /mealPlans/{planId} {
+      allow read, write: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.userId;
+    }
+    
+    match /groceryItems/{itemId} {
+      allow read: if isAuthenticated() && 
+                 (resource == null || request.auth.uid == resource.data.userId);
+      allow create: if isAuthenticated() && 
+                   request.auth.uid == request.resource.data.userId;
+      allow update, delete: if isAuthenticated() && 
+                           request.auth.uid == resource.data.userId;
+    }
+    
+    match /bookmarks/{bookmarkId} {
+      allow read: if isAuthenticated() && 
+                 (resource == null || request.auth.uid == resource.data.userId);
+      allow create: if isAuthenticated() && 
+                   request.auth.uid == request.resource.data.userId;
+      allow delete: if isAuthenticated() && 
+                   request.auth.uid == resource.data.userId;
+    }
+    
+    match /users/{userId} {
+      allow read: if isAuthenticated() && 
+                 (request.auth.uid == userId || hasRole(['owner']));
+    }
+    
+    match /organizations/{orgId} {
+      allow read: if isUserInOrganization(orgId);
+      allow update: if isUserInOrganization(orgId) && hasRole(['owner']);
+    }
+  }
+}

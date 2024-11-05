@@ -1,0 +1,16 @@
+{
+  "categories": {
+    "produce": "Fruits et Légumes",
+    "meat": "Viandes",
+    "seafood": "Poissons et Fruits de Mer",
+    "deli": "Rayon Frais - Traditionnel",
+    "dairy": "Rayon Frais - Crémerie",
+    "sweetGrocery": "Epicerie Sucrée",
+    "savoryGrocery": "Epicerie Salée",
+    "bakery": "Boulangerie",
+    "frozen": "Produits Surgelés",
+    "beverages": "Boissons",
+    "condiments": "Condiments et Épices",
+    "other": "Autre"
+  }
+}

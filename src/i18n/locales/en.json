@@ -1,0 +1,16 @@
+{
+  "categories": {
+    "produce": "Fruits & Vegetables",
+    "meat": "Meat",
+    "seafood": "Fish & Seafood",
+    "deli": "Deli",
+    "dairy": "Dairy",
+    "sweetGrocery": "Sweet Grocery",
+    "savoryGrocery": "Savory Grocery",
+    "bakery": "Bakery",
+    "frozen": "Frozen Foods",
+    "beverages": "Beverages",
+    "condiments": "Condiments & Spices",
+    "other": "Other"
+  }
+}
